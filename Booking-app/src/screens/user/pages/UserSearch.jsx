@@ -31,8 +31,6 @@ export default function UserSearch() {
         handleSearch();
     }, [handleSearch])
 
-    console.log("listSearchData", listSearchData);
-
     const handleOptions = (e) => {
         setOptions({
             ...options,

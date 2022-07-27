@@ -19,6 +19,9 @@ const roomApi = {
     },
     searchByDestination: (destination) => {
         return axiosClient.get(`${ENDPOINT.rooms}/search/${destination}`);
+    },
+    getRoomByUser: (id_user) => {
+        return axiosClient.get(`${ENDPOINT.rooms}/user/${id_user}`);
     }
 }
 

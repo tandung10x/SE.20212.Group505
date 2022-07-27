@@ -1,12 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-export function CardItemFirst({ item }) {
+export function CardItemFirst({ item, img }) {
+    const navigate = useNavigate();
+    const [dates, setDates] = useState([
+        {
+            startDate: new Date(),
+            endDate: new Date(),
+            key: "selection"
+        }
+    ]);
+    const [options, setOptions] = useState({
+        adult: 1,
+        children: 0,
+        room: 1
+    });
+
+    const handleSearch = async () => {
+        navigate('/homestays',
+            {
+                state: {
+                    destination: item?.name_location,
+                    dates: dates,
+                    options: options
+                }
+            });
+    }
+
     return (
-        <div className='card-item'>
-            <img src={item.image} alt="" className="card-item__img" />
+        <div className='card-item' onClick={handleSearch} >
+            <img src={img} alt="error" className="card-item__img" />
             <div className="card-item__props">
-                <h2>{item.name}</h2>
-                <h3>{item.property > 1 ? `${item.property} properties` : `${item.property} property`}</h3>
+                <h2>{item?.name_location}</h2>
+                <h3>20 properties</h3>
             </div>
         </div>
     )

@@ -1,7 +1,6 @@
 const express= require("express")
 const asyncHandle = require("../middlewares/asyncHandle")
 const router= express.Router();
-
 const {
   getAll,
   createRoom,

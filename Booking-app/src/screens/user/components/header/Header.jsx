@@ -50,10 +50,10 @@ export default function Header({ type }) {
             <div className={`${type === "search" ? "container header-has-search" : "container"}`}>
                 <div className="header-top">
                     <h2><Link to='/'>jade hill homeStays</Link></h2>
-                    <div className="header-top__right">
+                    {/* <div className="header-top__right">
                         <Button variant='contained' size='small' sx={{ marginRight: 1}}>login</Button>
                         <Button color='success' variant='contained' size='small'>register</Button>
-                    </div>
+                    </div> */}
                 </div>
                 {type === "search" && <>
                     <div className="header-center">
@@ -160,7 +160,7 @@ export default function Header({ type }) {
                                 </div>
                             )}
                         </div>
-                        <div className="header-search__item">
+                        <div className="header-search__item search-btn">
                             <Button
                                 color='success'
                                 variant='contained'

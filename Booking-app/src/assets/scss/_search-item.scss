@@ -1,4 +1,5 @@
 .search-item {
+    width: 100%;
     padding: 10px;
     border-radius: 5px;
     display: flex;
@@ -92,6 +93,7 @@
 
             &__price {
                 font-size: 24px;
+                font-weight: 500;
             }
 
             &__tax {
@@ -108,6 +110,44 @@
                 border: none;
                 cursor: pointer;
                 border-radius: 5px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .search-item {
+        width: 100%;
+
+        & img {
+            width: 100px;
+            height: 200px;
+        }
+
+        &__desc {
+            .desc-distance,
+            .desc-cancel{
+                display: none;
+            }
+        }
+
+        &__detail {
+            
+            .detail-rating {
+                & span {
+                    visibility: hidden;
+                }
+            }
+            .detail-text {
+                &__tax {
+                    display: none;
+                }
+
+                &__btn {
+                    width: 100px;
+                    padding: 8px;
+                    font-size: 11px ;
+                }
             }
         }
     }

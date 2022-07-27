@@ -2,7 +2,7 @@ import React from 'react'
 import { useController } from 'react-hook-form';
 import { TextField } from '@mui/material';
 
-export default function InputField({ name, control, label, type, ...inputProps }) {
+export default function InputField({ name, control, label, type, disabled, ...inputProps }) {
     const {
         field: { value, onChange, onBlur, ref },
         fieldState: { invalid, error },
@@ -16,6 +16,7 @@ export default function InputField({ name, control, label, type, ...inputProps }
             size='small'
             label={label}
             type={type}
+            disabled={disabled}
             value={value}
             onChange={onChange}
             onBlur={onBlur}

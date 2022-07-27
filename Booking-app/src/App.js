@@ -69,7 +69,7 @@ function App() {
           <Route
             path='/admin/users/:id'
             element={
-              <ProtectedRoute>
+              <ProtectedRoute roles={["staff"]}>
                 <UserDetailPage />
               </ProtectedRoute>
             }
@@ -94,7 +94,7 @@ function App() {
           <Route
             path='/admin/homestays/new-homestay'
             element={
-              <ProtectedRoute roles={["staff"]}>
+              <ProtectedRoute>
                 <AddHomeStayPage />
               </ProtectedRoute>
             }
@@ -111,7 +111,7 @@ function App() {
           <Route
             path='/admin/services'
             element={
-              <ProtectedRoute>
+              <ProtectedRoute roles={["staff"]}>
                 <ListServicePage />
               </ProtectedRoute>
             }
@@ -119,7 +119,7 @@ function App() {
           <Route
             path='/admin/services/new-service'
             element={
-              <ProtectedRoute>
+              <ProtectedRoute roles={["staff"]}>
                 <AddServicePage />
               </ProtectedRoute>
             }
@@ -127,7 +127,7 @@ function App() {
           <Route
             path='/admin/services/:id'
             element={
-              <ProtectedRoute>
+              <ProtectedRoute roles={["staff"]}>
                 <EditService />
               </ProtectedRoute>
             }

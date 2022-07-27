@@ -1,4 +1,3 @@
-import { LocationOn } from '@mui/icons-material';
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -36,10 +35,10 @@ export default function HotelDetail() {
                 <div className="hotel-detail__top">
                     <div className="hotel-detail__top-left">
                         <h2>{homestay?.type_of_room}</h2>
-                        <div className="hotel-address">
+                        {/* <div className="hotel-address">
                             <LocationOn fontSize='18' />
                             <span>{homestay?.address}</span>
-                        </div>
+                        </div> */}
                         <p className="hotel-distance">
                             Excellent location - 300m from center
                         </p>
@@ -49,12 +48,14 @@ export default function HotelDetail() {
                         </p>
                     </div>
                     <div className="hotel-detail__top-right">
-                        <button className="book-now" onClick={() => navigate('/booking')}>Reserve or Book Now!</button>
+                        <button className="book-now book-now1" onClick={() => navigate('/booking', { state: { price: homestay?.cost_per_day, id_room: id }})}>
+                            Reserve or Book Now!
+                        </button>
                     </div>
                 </div>    
-                <div className="row">
+                <div className="row detail-img">
                     {photos.map((photo, index) => (
-                        <div className='col-3 col-md-4 col-sm-12 mb-1' key={index}>
+                        <div className='col-3 col-md-4 col-sm-6 mb-1' key={index}>
                             <img src={photo} alt="" className="hotel-image-item" />
                         </div>
                     ))}
@@ -63,7 +64,7 @@ export default function HotelDetail() {
                     <div className="hotel-detail__bottom-text">
                         <h3>Stay in the heart of city</h3>
                         <p>Entire studio, 1 bathroom 21m<sup>2</sup> full bed</p>
-                        <p>
+                        <p className="desc-detail-hotel">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam pariatur beatae quo facilis reprehenderit, veniam doloremque quidem unde delectus nesciunt maxime iure id quasi iusto! Quis, laborum. Doloribus, pariatur enim.
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam pariatur beatae quo facilis reprehenderit, veniam doloremque quidem unde delectus nesciunt maxime iure id quasi iusto! Quis, laborum. Doloribus, pariatur enim.
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam pariatur beatae quo facilis reprehenderit, veniam doloremque quidem unde delectus nesciunt maxime iure id quasi iusto! Quis, laborum. Doloribus, pariatur enim.
@@ -80,7 +81,7 @@ export default function HotelDetail() {
                         </p>
                         <button
                             className='book-now'
-                            onClick={() => navigate('/booking', { state: { price: homestay?.cost_per_day } })}
+                            onClick={() => navigate('/booking', { state: { price: homestay?.cost_per_day, id_room: id }})}
                         >
                             Reserve or Book Now!
                         </button>

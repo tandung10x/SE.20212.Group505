@@ -26,6 +26,7 @@
             .hotel-distance {
                 color: #85f3ed;
                 font-size: 14px;
+                margin-top: 5px;
             }
 
             .hotel-price {
@@ -90,6 +91,48 @@
                 margin: 10px 0;
                 font-size: 14px;
             }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .hotel-detail {
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .hotel-price {
+            width: 95%;
+        }
+
+        .detail-img {
+            width: 100%;
+
+            & img {
+                width: 150px !important;
+                height: 150px !important;
+            }
+        }
+
+        &__bottom {
+            flex-direction: column;
+
+            .desc-detail-hotel {
+                display: none;
+            }
+
+            &-price {
+                width: 100%;
+                gap: 5px;
+                margin-top: 20px;
+            }
+
+            .book-now {
+                margin-top: 5px;
+            }
+        }
+        
+        .book-now1 {
+            display: none;
         }
     }
 }

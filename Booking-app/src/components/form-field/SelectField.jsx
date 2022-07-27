@@ -28,7 +28,7 @@ export function SelectField({ name, control, label, options }) {
                 {
                     options.map(option => {
                         return (
-                            <MenuItem key={option?.id} value={option?.id}>{option?.name}</MenuItem>
+                            <MenuItem key={option?._id || option?.id} value={option?._id || option?.id}>{option?.name}</MenuItem>
                         )
                     })
                 }

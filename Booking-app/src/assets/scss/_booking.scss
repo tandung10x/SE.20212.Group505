@@ -45,3 +45,16 @@
         font-weight: 500;
     }
 }
+
+@media screen and (max-width: 768px) {
+    .booking-row {
+        flex-direction: column-reverse;
+    }
+    .booking-info {
+        margin: 10px;
+        width: calc(100% - 20px);
+    }
+    .MuiList-root {
+        width: 100%;
+    }
+}

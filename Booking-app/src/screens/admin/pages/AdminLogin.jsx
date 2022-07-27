@@ -38,7 +38,7 @@ export default function AdminLogin() {
         const response = await authApi.login(value);
         setIsLoading(false);
         
-        if (response?.statusCode === 403) {
+        if (response?.statusCode === 403 || response?.statusCode === 404) {
             setErrorMessage("Username or password incorrect")
         } else {
             localStorage.setItem('managerInfo', JSON.stringify(response));

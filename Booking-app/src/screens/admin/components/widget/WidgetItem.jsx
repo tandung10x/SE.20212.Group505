@@ -6,13 +6,15 @@ import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlin
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux'
 
-const WidgetItem = ({ type }) => {
+const WidgetItem = ({ type, total }) => {
     let data;
     const { statisticals } = useSelector(state => state.statistical);
     const { managers } = useSelector(state => state.manager);
     const { rooms } = useSelector(state => state.room);
+    const user = useSelector(state => state.auth.user);
 
     const diff = 20;
+
     const totalRevenue = [...statisticals].map(item => item?.total).reduce((prev, curr) => prev + curr, 0);
     
     switch (type) {
@@ -72,7 +74,7 @@ const WidgetItem = ({ type }) => {
                         style={{ backgroundColor: "rgba(128, 0, 128, 0.2)", color: "purple" }}
                     />
                 ),
-                amount: totalRevenue
+                amount: user?.role === 'admin' ? `${totalRevenue}` : total
             };
             break;
         default:

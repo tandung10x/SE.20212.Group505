@@ -62,14 +62,14 @@ export default function Sidebar() {
                             <span>Homestays</span>
                         </li>
                     </Link>
+                    <Link to="/admin/services" style={{ textDecoration: "none" }}>
+                        <li>
+                            <RoomServiceIcon className="icon" />
+                            <span>Services</span>
+                        </li>
+                    </Link>
                     {
                         user?.role === 'admin' && <>
-                            <Link to="/admin/services" style={{ textDecoration: "none" }}>
-                                <li>
-                                    <RoomServiceIcon className="icon" />
-                                    <span>Services</span>
-                                </li>
-                            </Link>
                             <Link to="/admin/statistical" style={{ textDecoration: "none" }}>
                                 <li>
                                     <StackedLineChartIcon className="icon" />

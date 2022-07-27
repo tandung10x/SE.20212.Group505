@@ -10,13 +10,14 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form';
 import { SelectField } from '../../../../components/form-field/SelectField';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getAllRoom } from '../../../../redux/roomSlice';
 
 function EditRoom() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { id } = useParams();
+    const { managers } = useSelector(state => state.manager);
     const [room, setRoom] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -35,7 +36,8 @@ function EditRoom() {
         type_of_room: room?.type_of_room,
         max_people: room?.max_people,
         cost_per_day: room?.cost_per_day,
-        other_information: room?.other_information || ''
+        other_information: room?.other_information || '',
+        id_user: room?.id_user
     }
 
     const validationSchema = Yup.object().shape({
@@ -56,19 +58,28 @@ function EditRoom() {
         mode: 'all'
     })
 
+    const selectManager = [...managers].map(item => {
+        return { id: item?._id, name: item?.username }
+    })
+
     useEffect(() => {
         setValue('cost_per_day', room?.cost_per_day);
         setValue('max_people', room?.max_people);
         setValue('other_information', room?.other_information);
         setValue('type_of_room', room?.type_of_room);
+        setValue('id_user', room?.id_user);
     }, [room, setValue])
 
     const handleUpdate = async (value) => {
-        await roomApi.update(room?._id, value);
-        alert("Update room successfully!");
-        dispatch(getAllRoom());
-        navigate('/admin/homestays');
-    }
+        const response = await roomApi.update(room?._id, value);
+        if (response?.statusCode === 400) {
+            alert("Update room failed because this manager already manages another room.")
+        } else {
+            alert("Update room successfully!");
+            dispatch(getAllRoom());
+            navigate('/admin/homestays');
+        }
+    };
 
     return (
         <div className='add-new'>
@@ -125,6 +136,16 @@ function EditRoom() {
                                                     { id: 'villa', name: 'Villas' },
                                                     { id: 'cabin', name: 'Cabins' },
                                                 ]}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-item">
+                                        <p className="form-item__name">Manager</p>
+                                        <div className='form-item__input'>
+                                            <SelectField
+                                                name='id_user'
+                                                control={control}
+                                                options={selectManager}
                                             />
                                         </div>
                                     </div>

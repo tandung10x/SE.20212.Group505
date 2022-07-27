@@ -15,7 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "date-fns": "^2.28.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^6.0.1",
     "query-string": "^7.1.1",
     "react": "^18.1.0",
     "react-circular-progressbar": "^2.0.4",
@@ -53,17 +53,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/minhphuong2001/Booking-app.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/minhphuong2001/Booking-app/issues"
-  },
-  "homepage": "https://github.com/minhphuong2001/Booking-app#readme"
+  }
 }

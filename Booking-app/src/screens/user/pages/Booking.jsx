@@ -12,6 +12,8 @@ import { format } from 'date-fns'
 import statisticalApi from '../../../api/statisticalApi'
 import { SelectField } from '../../../components/form-field/SelectField'
 import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import roomApi from '../../../api/roomApi';
 
 export default function Booking() {
     const location = useLocation();
@@ -19,17 +21,12 @@ export default function Booking() {
     const [openConfirmModal, setOpenConfirmModal] = useState(false);
     const date = new Date();
     const { services } = useSelector(state => state.service);
-    const { rooms } = useSelector(state => state.room);
     const [otp, setOtp] = useState('');
     const [statisticalId, setStatisticalId] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const selectService = [...services].map(item => {
         return { id: item?._id, name: item?.name_service }
-    })
-
-    const selectRoom = [...rooms].map(item => {
-        return { id: item?._id, name: item?.type_of_room }
     })
 
     const initialValues = {
@@ -49,7 +46,7 @@ export default function Booking() {
         age: Yup.number()
             .typeError("Age must be a number.")
             .required("Age is required.")
-            .min(18, "Age min is 1.")
+            .min(18, "Age min is 18.")
             .max(100, "Age max is 100."),
         gender: Yup.string()
             .required("Gender is required."),
@@ -63,19 +60,35 @@ export default function Booking() {
             "Email is invalid."),
     })
 
-    const { control, handleSubmit, formState: { isValid, isDirty } } = useForm({
+    const { control, handleSubmit, setValue, formState: { isValid, isDirty } } = useForm({
         defaultValues: initialValues,
         resolver: yupResolver(validationSchema),
         mode: 'all'
     });
 
+    useEffect(() => {
+        const getRoom = async() => {
+            const response = await roomApi.getRoomById(location?.state?.id_room);
+            if (response) {
+                setValue("id_room", response?.type_of_room);
+            }
+        }
+
+        getRoom();
+    }, [setValue, location])
+
     const onsubmit = async (value) => {
         const data = {
             ...value,
+            id_room: location?.state?.id_room,
             total: location?.state?.price
         }
         setIsLoading(true);
         const response = await statisticalApi.create(data);
+        if (response?.statusCode === 401) {
+            alert(response?.message + ", please choose another room.");
+            return;
+        }
         setStatisticalId(response?._id);
         setIsLoading(false);
         setOpenConfirmModal(true);
@@ -83,7 +96,7 @@ export default function Booking() {
 
     const handleConfirmOtp = async (otp) => {
         const response = await statisticalApi.confirmOtp(statisticalId, otp);
-
+        console.log('res', response);
         if (response?.statusCode === 404) {
             alert(response?.message);
         } else {
@@ -97,8 +110,8 @@ export default function Booking() {
         <div className='booking'>
             <Header />
             <div className='container' style={{ padding: '30px 0'}}>
-                <div className='row'>
-                    <div className='col-8'>
+                <div className='row booking-row'>
+                    <div className='col-8 col-sm-12'>
                         <div className='booking-info'>
                             <h3>Enter your details</h3>
                             <Box>
@@ -160,11 +173,11 @@ export default function Booking() {
                                     name='address'
                                     control={control}
                                 />
-                                <SelectField
-                                    label='Room'
+                                <InputField
+                                    label='Type of room'
                                     name='id_room'
                                     control={control}
-                                    options={selectRoom}
+                                    disabled={true}
                                 />
                                 <SelectField
                                     label='Service'
@@ -184,7 +197,7 @@ export default function Booking() {
                             </Box>
                         </div>
                     </div>
-                    <div className='col-4'>
+                    <div className='col-4 col-sm-12'>
                         <div className='booking-info'>
                             <h4>Your booking detail</h4>
                             <div className="booking-info__detail">

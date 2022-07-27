@@ -8,6 +8,9 @@ const statisticalApi = {
     delete: (id) => {
         return axiosClient.delete(`${ENDPOINT.statistical}/${id}`);
     },
+    update: (id, value) => {
+        return axiosClient.patch(`${ENDPOINT.statistical}/${id}`, value);
+    },
     getStatisticalByRoom: (id_room) => {
         return axiosClient.get(`${ENDPOINT.statistical}/${id_room}`);
     },

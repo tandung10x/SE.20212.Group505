@@ -1,4 +1,4 @@
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Button, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
@@ -12,14 +12,28 @@ import { getAllRoom } from '../../../redux/roomSlice';
 
 export default function ListHomestayPage() {
     const dispatch = useDispatch();
+    const user = useSelector(state => state.auth.user);
     const { rooms } = useSelector(state => state.room);
     const [listRoom, setListRoom] = useState([]);
     const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
     const [item, setItem] = useState(null);
+    const [staffRoom, setStaffRoom] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setListRoom([...rooms]);
     }, [rooms])
+
+    useEffect(() => {
+        const getRoomByUser = async () => {
+            setIsLoading(true);
+            const response = await roomApi.getRoomByUser(user?._id);
+            setStaffRoom(response);
+            setIsLoading(false);
+        }
+
+        getRoomByUser();
+    }, [user])
 
     const handleDelete = async (id) => {
         await roomApi.delete(id);
@@ -36,12 +50,14 @@ export default function ListHomestayPage() {
                 <div className='data-table'>
                     <div className="data-table__title">
                         <span>List Homestay</span>
-                        <Link
-                            to='/admin/homestays/new-homestay'
-                            className="data-table__title-link"
-                        >
-                        Add New Homestay
-                        </Link>
+                        {
+                            user?.role === 'admin' && <Link
+                                to='/admin/homestays/new-homestay'
+                                className="data-table__title-link"
+                            >
+                                Add New Homestay
+                            </Link>
+                        }
                     </div>
                     <Box sx={{ flex: 6, width: '100%', overflow: 'hidden'}}>
                         <TableContainer>
@@ -94,7 +110,7 @@ export default function ListHomestayPage() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {listRoom.map((item, index) => {
+                                    {user?.role === 'admin' && listRoom.map((item, index) => {
                                         return (
                                             <TableRow key={index} >
                                                 <TableCell align='left'>{item?._id}</TableCell>
@@ -124,6 +140,29 @@ export default function ListHomestayPage() {
                                             </TableRow>
                                         )
                                     })}
+                                    {isLoading ? <CircularProgress size={30} color='primary' style={{ margin: '10px auto' }} /> :
+                                        (user?.role === 'staff' && <>
+                                        <TableRow>
+                                            <TableCell align='left'>{staffRoom?._id}</TableCell>
+                                            <TableCell align='left'>
+                                                {staffRoom?.id_location?.name_location}
+                                            </TableCell>
+                                            <TableCell align='left'>{staffRoom?.type_of_room}</TableCell>
+                                            <TableCell align='left'>{staffRoom?.max_people}</TableCell>
+                                            <TableCell align='left'>{staffRoom?.cost_per_day && '$' + staffRoom?.cost_per_day }</TableCell>
+                                            <TableCell align='left'>{staffRoom?.id_user?.username ? staffRoom?.id_user?.username : "Not yet"}</TableCell>
+                                            <TableCell align='left'>
+                                                {staffRoom?.other_information}
+                                            </TableCell>
+                                            <TableCell align='right'>
+                                                {staffRoom?._id ? <div className="cellAction">
+                                                    <Link to={`/admin/homestays/${staffRoom?._id}`} style={{ textDecoration: "none" }}>
+                                                        <div className="viewButton">View</div>
+                                                    </Link>
+                                                </div> : ''}
+                                            </TableCell>
+                                        </TableRow>
+                                    </>)}
                                 </TableBody>
                             </Table>
                         </TableContainer>

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const destinationSchema= mongoose.Schema({
   name_location: {
     type: String, 
@@ -13,6 +12,5 @@ const destinationSchema= mongoose.Schema({
   versionKey: false,
   timestamps: true
 })
-
 
 module.exports= mongoose.model('destination', destinationSchema);

@@ -58,7 +58,7 @@ export default function Header({ type }) {
                 {type === "search" && <>
                     <div className="header-center">
                         <h3>best quantity - best price</h3>
-                        <p>We give you a lengenary welcome, everytime you come back</p>
+                        <p>We give you a lovely welcome, everytime you come back</p>
                     </div>
                     <div className="header-search">
                         <div className="header-search__item">
